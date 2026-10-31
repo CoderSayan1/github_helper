@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: backend
+
+# DB related properties
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/sayan}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+# Local ollama properties
+  ai:
+    ollama:
+      base-url: ${OLLAMA_URL:http://localhost:11434}
+      chat:
+        options:
+          model: llama3.2
+          temperature: 0.7
+
+# OAuth2 security properties
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID:Ov23liBJ5gsTL74HwpDk}
+            client-secret: ${GITHUB_CLIENT_SECRET:4b2af9ec9e996497c3304e68e65584d0e671af84}
+            scope: read:user,repo
+            user-name-attribute: id
+
+# Server properties
+server:
+  servlet:
+    session:
+      cookie:
+        name: GITHUB_HELPER_SESSION
+        http-only: true
+        same-site: lax
+      timeout: 7d
+
+# Frontend properties
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  token-encryptor-password: ${TOKEN_ENCRYPTOR_PASSWORD:gfhjsgfshjgfshjgfhjsgfs}
+  token-encryptor-salt: ${TOKEN_ENCRYPTOR_SALT:a1b2c3d4e5f60718293a4b5c6d7e8f90}
+  indexing:
+    max-file-bytes: 102400
+    chunk-size: 800
+    chunk-overlap: 100
+  github:
+    api-delay-ms: 50
